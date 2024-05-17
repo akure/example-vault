@@ -4,3 +4,4 @@ pub mod describe;
 pub mod handle;
 pub mod msg;
 pub mod state;
+pub mod error;

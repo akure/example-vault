@@ -1,7 +1,14 @@
 use cosmwasm_schema::cw_serde;
 use cosmwasm_std::{Deps, DepsMut, Env, Timestamp};
-use vaultenator::{errors::ContractError, state::ManageState};
 
+
+
+// use vaultenator::{errors::ContractError, state::ManageState};
+
+
+
+
+/*
 #[cw_serde]
 pub struct MyState {
     pub is_open: bool,
@@ -44,3 +51,4 @@ impl ManageState for MyState {
         self.save_to_storage(deps)
     }
 }
+*/

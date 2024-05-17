@@ -2,11 +2,11 @@ use crate::msg::InstantiateMsg;
 use cosmwasm_schema::cw_serde;
 use serde::{de::DeserializeOwned, Serialize};
 
-use vaultenator::config::Configure;
-use vaultenator::errors::ContractError;
+//use vaultenator::config::Configure;
+//use vaultenator::errors::ContractError;
 
 use cosmwasm_std::{DepsMut, Uint128};
-
+/*
 #[cw_serde]
 pub struct MyConfig {
     pub strategy_cap: Uint128,
@@ -44,3 +44,4 @@ impl Configure for MyConfig {
         Ok(config)
     }
 }
+*/
