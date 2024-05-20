@@ -5,3 +5,5 @@ pub mod handle;
 pub mod msg;
 pub mod state;
 pub mod error;
+pub mod vault;
+pub mod ownership;

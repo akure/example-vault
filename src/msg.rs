@@ -1,10 +1,14 @@
 use cosmwasm_schema::cw_serde;
 use cw_vault_standard::{VaultStandardExecuteMsg, VaultStandardQueryMsg};
 use cosmwasm_std::Uint128;
+// use crate::vault::{provault, config};
+use crate::vault;
+
 
 #[cw_serde]
 pub struct InstantiateMsg {
-    pub base_denom: String,
+    pub provault_config : vault::config::Config,
+
 }
 
 #[cw_serde]
