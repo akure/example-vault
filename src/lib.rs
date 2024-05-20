@@ -7,3 +7,4 @@ pub mod state;
 pub mod error;
 pub mod vault;
 pub mod ownership;
+pub mod strategy;

@@ -2,17 +2,25 @@ use cosmwasm_schema::cw_serde;
 use cw_vault_standard::{VaultStandardExecuteMsg, VaultStandardQueryMsg};
 use cosmwasm_std::Uint128;
 // use crate::vault::{provault, config};
-use crate::vault;
-
+use crate::vault::provault::VaultRunningState;
+use crate::vault::config::Config;
+use crate::strategy::strategy::{Strategy, StrategyKey};
+use serde::{Serialize,Deserialize};
+use schemars::JsonSchema;
 
 #[cw_serde]
 pub struct InstantiateMsg {
-    pub provault_config : vault::config::Config,
+    pub provault_config : Config,
 
 }
 
 #[cw_serde]
-pub enum QueryMsg {}
+pub enum QueryMsg {
+    GetAllStrategies {},
+    GetVaultConfig {},    
+    GetVaultRunningState {},
+
+}
 
 #[cw_serde]
 pub struct MigrateMsg {}
@@ -27,7 +35,9 @@ pub enum ProExtensionExecuteMsg {
         recipient: Option<String>,
     },
 
+    // TODO - Combine all vault related enums as Vault Actions or VaultAdmin Action.
     UpdateRunningState {
+        new_state: VaultRunningState,
         // Placeholder for running state details
     },
 
@@ -35,14 +45,15 @@ pub enum ProExtensionExecuteMsg {
         // Placeholder for vault owner details
     },
 
+
     UpdateStrategyOwner {
         // Placeholder for strategy owner details
     },
 
-    CreateStrategy {
-        // Placeholder for creating strategy
-        // Adding adaptors, configuring adaptors, adding Strategy Control Owner, Adaptor Control Owner
-    },
+    // TODO - Adding adaptors, configuring adaptors, adding Strategy Control Owner, Adaptor Control Owner
+    CreateStrategy { name: String, description: String },  
+
+
 
     ExecStrategyActions { 
         action : StrategyAction,
@@ -55,10 +66,9 @@ pub enum StrategyAction {
     DistributeFundWithCustomAdaptorRatios { custom_ratios: String }, // CustomAdaptorRatio (A1:R1, A2:R2, A3:R3)
     RemoveAdaptor { adaptor: String }, // Remove Adaptor Ai
     AddNewAdaptor { adaptor: String }, // Add a new adaptor of type Ai. Should fail if already one is present of type A1.
-    UpdateStrategyParams {
-        // Placeholder for updating strategy parameters
-        // e.g., update ratio, remove adaptor, enable/disable strategy or adaptor
-    },
+    UpdateStrategyParams ,
+    //{ // Placeholder for updating strategy parameters // e.g., update ratio, remove adaptor, enable/disable strategy or adaptor
+    //},
     UpdateAdaptorRunningState { adaptor: String },
     UpdateStrategyRunningState,
 }
@@ -70,3 +80,22 @@ pub enum ExtensionExecuteMsg {
 
 /// ExecuteMsg
 pub type ExecuteMsg = VaultStandardExecuteMsg<ExtensionExecuteMsg>;
+
+
+// QUERY RESPONSES 
+// TODO - Structure to code to the right module and files .
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
+pub struct StrategyInfoResponse {
+    pub strategies: Vec<Strategy>,
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+pub struct VaultConfigResponse {
+    pub config: Config,
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+pub struct VaultRunningStateResponse {
+    pub state: VaultRunningState,
+    pub last_statechange_bh: u64,
+}
