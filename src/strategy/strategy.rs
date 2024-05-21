@@ -18,6 +18,8 @@ impl StrategyKey {
     }
 }
 
+// TODO - Impl ownership to the strategy.
+
 // Stratey here takes the control of the fund movement from the contract treasury balance to 
 // the pro vault adaptors as per the instructions sent to strategy module in the contract.
 // Fund distribution could be based on preset ratio or sent via external trigger, which depends on how
@@ -27,7 +29,7 @@ pub struct Strategy {
     pub id: u64,
     pub name: String,
     pub description: String,
-    // Add more fields as necessary
+    // TODO - Add more fields as necessary like adaptor vectors. 
 }
 
 impl Strategy {

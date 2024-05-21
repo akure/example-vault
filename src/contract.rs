@@ -7,7 +7,7 @@ use crate::strategy::strategy::{Strategy, StrategyKey, STRATEGY};
 use crate::error::ContractError;
 use crate::vault::provault::{VaultRunningState, VAULT_STATE, 
     query_all_strategies, query_vault_running_state};
-use crate::vault::config::query_vault_config;
+use crate::vault::config::{query_vault_config, VAULT_CONFIG, Config};
 
 use cosmwasm_std::{
     entry_point, Binary, Deps, DepsMut, Env, MessageInfo, Reply, Response, 
@@ -65,9 +65,19 @@ pub fn instantiate(
     info: MessageInfo,
     msg: InstantiateMsg,
 ) -> Result<Response, ContractError> {
-    Ok(Response::default())
-    // MyVault.instantiate(deps, env, info, msg)
-}
+
+    let config = Config {
+        max_deposit_cap: msg.provault_config.max_deposit_cap,
+        deposit_denom: msg.provault_config.deposit_denom,
+        share_denom: msg.provault_config.share_denom,
+        max_strategy_inst: msg.provault_config.max_strategy_inst,
+        admin: msg.provault_config.admin,
+    };
+
+    VAULT_CONFIG.save(deps.storage, &config)?;
+    Ok(Response::new().add_attribute("method", "instantiate"))
+    // Ok(Response::default())
+ }
  
 
 #[cfg_attr(not(feature = "library"), entry_point)]

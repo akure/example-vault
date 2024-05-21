@@ -8,3 +8,4 @@ pub mod error;
 pub mod vault;
 pub mod ownership;
 pub mod strategy;
+pub mod position_manager;

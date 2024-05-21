@@ -22,10 +22,11 @@ pub fn query_vault_config(deps: Deps) -> StdResult<Binary> {
 // #[cw_serde] // TODO 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 pub struct Config {
-    pub max_deposit_cap: Uint128, // in the amounts of deposit denom
+    pub max_deposit_cap: Uint128,
     pub deposit_denom: String,
     pub share_denom: String,
     pub max_strategy_inst: Uint64,
+    pub admin: String,
 }
 
 

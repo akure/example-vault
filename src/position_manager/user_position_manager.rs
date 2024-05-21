@@ -1,10 +1,14 @@
 use cosmwasm_std::{Addr, Coin, DepsMut, Env, MessageInfo, Response, StdError, StdResult};
 use cw_storage_plus::{Item, Map};
-use crate::ContractError;
+use crate::error::ContractError;
+use serde::{Deserialize, Serialize};
+use schemars::JsonSchema;
 
 pub const USER_POSITIONS: Map<(Addr, Addr), UserPosition> = Map::new("user_positions");
 
-#[cw_serde]
+// TODO - this file to be refined.
+//#[cw_serde]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 pub struct UserPosition {
     pub user_address: Addr,
     pub vault_address: Addr,
