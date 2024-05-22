@@ -31,6 +31,7 @@ pub enum VaultRunningState {
     Terminated,
 }
 
+
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 pub struct Vault {
     state: VaultRunningState,
@@ -40,7 +41,7 @@ pub struct Vault {
   
 
 impl Vault {
-    pub fn new() -> Self {
+     pub fn new() -> Self {
         Vault {
             state: VaultRunningState::Init,
             last_statechange_bh: 0,

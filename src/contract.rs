@@ -5,8 +5,8 @@ use crate::msg::ExtensionExecuteMsg;
 use crate::strategy::strategy::{Strategy, StrategyKey, STRATEGY};
 //use crate::state::MyState;
 use crate::error::ContractError;
-use crate::vault::provault::{VaultRunningState, VAULT_STATE, 
-    query_all_strategies, query_vault_running_state};
+use crate::vault::provault::{VaultRunningState, VAULT_STATE, VAULT_OWNER,
+    query_all_strategies, query_vault_running_state, Vault};
 use crate::vault::config::{query_vault_config, VAULT_CONFIG, Config};
 
 use cosmwasm_std::{
@@ -60,11 +60,14 @@ pub fn execute(
 
 #[cfg_attr(not(feature = "library"), entry_point)]
 pub fn instantiate(
-    deps: DepsMut,
+    mut deps: DepsMut,
     env: Env,
     info: MessageInfo,
     msg: InstantiateMsg,
 ) -> Result<Response, ContractError> {
+
+    VAULT_OWNER.set(deps.branch(), Some(info.sender.clone()))?;
+
 
     let config = Config {
         max_deposit_cap: msg.provault_config.max_deposit_cap,
@@ -75,6 +78,15 @@ pub fn instantiate(
     };
 
     VAULT_CONFIG.save(deps.storage, &config)?;
+    // Vault::update_state(deps, env, info, VaultRunningState::Init);
+    // VAULT_OWNER.set(deps, Some(info.sender.clone()))?;
+
+
+    // Initialize the vault state
+    let mut vault = Vault::new();
+    let response = vault.update_state(deps, env, info, VaultRunningState::Init)?;
+    
+    // TODO - PROPER EVENT HANDLING AND ERROR PROPAGATION.
     Ok(Response::new().add_attribute("method", "instantiate"))
     // Ok(Response::default())
  }
