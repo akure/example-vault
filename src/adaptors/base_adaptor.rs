@@ -1,7 +1,7 @@
 use cosmwasm_std::{
     to_binary, Addr, Binary, Coin, CosmosMsg, Env, QuerierWrapper, Response, StdError, WasmMsg,
 };
-use osmosis_std::types::cosmos::app::v1alpha1::Config;
+// use osmosis_std::types::cosmos::app::v1alpha1::Config;
 
 /// Enum for the different market types
 #[derive(Clone, Debug)]
@@ -26,11 +26,21 @@ pub trait Adapter {
     /// Metadata for the adapter
     fn metadata(&self) -> AdapterMetadata;
 
+    // Returns the total net assets available in the adaptor. ( allocated - withdraw ) 
+    // It can go negative as well, if total withdraw > allocated. This is running value to be 
+    // updated. TODO - REthink.
+    fn net_assets(self, querier: &QuerierWrapper, env: Env) -> Result<Vec<Coin>, StdError>;
+
+    // TODO - Rethink. based on current query against the adaptor if unbonding is done today.
+    fn expected_available_assets(self, querier: &QuerierWrapper, env: Env) -> Result<Vec<Coin>, StdError>;
+    // Returns the shares associated to this adaptor at a given point of time.
+    fn allocated_shares(&self, querier: &QuerierWrapper, env: Env) -> Result<Coin, StdError>;
     /// Describes the effective balance of the vault in the adapter
-    fn assets_balance(&self, querier: &QuerierWrapper, env: Env) -> Result<Vec<Coin>, StdError>;
+    /// fn assets_balance(&self, querier: &QuerierWrapper, env: Env) -> Result<Vec<Coin>, StdError>;
 
     /// Describes the base asset balance of the vault in the adapter
-    fn vault_token_balance(&self, querier: &QuerierWrapper, env: Env) -> Result<Coin, StdError>;
+    /// TODO - NOT SURE IF THIS IS USEFUL AT ALL. 
+    // fn vault_token_balance(&self, querier: &QuerierWrapper, env: Env) -> Result<Coin, StdError>;
 
     /// Executes a call to another contract
     fn execute_call(
@@ -74,13 +84,14 @@ pub trait DebtAdapter: Adapter {
 pub trait SwapAdapter: Adapter {
     type AdapterError;
     type SwapConfig;
-
+    /*
     fn swap_assets(
         &self,
         asset_in: Coin,
         asset_out: String,
         swap_config: Config,
     ) -> Result<Response, Self::AdapterError>;
+    */
 }
 
 /* Example usage 

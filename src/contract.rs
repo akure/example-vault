@@ -120,8 +120,8 @@ pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> StdResult<Binary> {
 
 #[cfg_attr(not(feature = "library"), entry_point)]
 pub fn reply(deps: DepsMut, env: Env, msg: Reply) -> Result<Response, ContractError> {
-    // MyVault.reply(deps, env, msg)
-    Ok(Response::default())
+     // TODO - REPLY TO BE IMPLEMENTED
+     Ok(Response::default())
 }
 
 #[cfg_attr(not(feature = "library"), entry_point)]

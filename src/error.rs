@@ -24,6 +24,9 @@ pub enum ContractError {
     #[error("Expired")]
     Expired {},
 
+    #[error("InvalidFundsAmount")]
+    InvalidFundsAmount{},
+
     #[error("{0}")]
     AdminError(#[from] AdminError),
 }
