@@ -4,8 +4,8 @@
 use cosmwasm_std::{coin, BankMsg, CosmosMsg, DepsMut, Env, Event, MessageInfo, Response, SubMsg};
 use cw2::set_contract_version;
 use cw_utils::must_pay;
-use osmosis_std::types::cosmos::base::v1beta1::Coin as OsmosisCoin;
-use osmosis_std::types::osmosis::tokenfactory::v1beta1::{MsgBurn, MsgMint};
+//use osmosis_std::types::cosmos::base::v1beta1::Coin as OsmosisCoin;
+//use osmosis_std::types::osmosis::tokenfactory::v1beta1::{MsgBurn, MsgMint};
 use serde::{de::DeserializeOwned, Serialize};
 
 //use vaultenator::config::Configure;

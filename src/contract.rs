@@ -13,8 +13,8 @@ use cosmwasm_std::{
     entry_point, Binary, Deps, DepsMut, Env, MessageInfo, Reply, Response, 
     StdResult, StdError,to_json_binary,
 };
-use osmosis_std::types::cosmwasm::wasm::v1::ExecuteContractProposal;
-use osmosis_std::types::osmosis::cosmwasmpool::v1beta1::ExitPoolExecuteMsgRequest;
+// use osmosis_std::types::cosmwasm::wasm::v1::ExecuteContractProposal;
+// use osmosis_std::types::osmosis::cosmwasmpool::v1beta1::ExitPoolExecuteMsgRequest;
  
 // TODO - Locality of local variables to be strucured, that will reduce number of imports from
 // other modules and will make the contract.rs clean to read and maintain.
@@ -78,8 +78,6 @@ pub fn instantiate(
     };
 
     VAULT_CONFIG.save(deps.storage, &config)?;
-    // Vault::update_state(deps, env, info, VaultRunningState::Init);
-    // VAULT_OWNER.set(deps, Some(info.sender.clone()))?;
 
 
     // Initialize the vault state
@@ -206,6 +204,10 @@ pub fn try_create_strategy(
     name: String,
     description: String,
 ) -> StdResult<Response> {
+    // TODO - Validation checks to be added.
+    // Initially, for the simplicity only one instance of strategy should be supported 
+    // within one provault contract. 
+    // TODO - Other parameters to be added soon.
     let strategy = Strategy {
         id: 1,
         name,

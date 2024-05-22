@@ -36,6 +36,7 @@ impl Strategy {
     pub fn execute_action(storage: &mut dyn Storage, action: StrategyAction) -> StdResult<()> {
         match action {
             StrategyAction::DistributeFundWithPresetAdaptorRatio => {
+                // TODO 
                 // Implementation for distributing funds with preset ratios
                 Ok(())
             }
@@ -43,21 +44,26 @@ impl Strategy {
                 Self::distribute_funds_with_custom_ratios(storage, custom_ratios)
             }
             StrategyAction::RemoveAdaptor { adaptor } => {
+                // TODO - Validation checks
                 ADAPTERS.remove(storage, adaptor.as_str());
                 Ok(())
             }
             StrategyAction::AddNewAdaptor { adaptor } => {
+                // TODO - Validation checks
                 Self::add_adapter(storage, Addr::unchecked(adaptor))
             }
             StrategyAction::UpdateStrategyParams => {
                 // Placeholder for updating strategy parameters
+                // TODO - 
                 Ok(())
             }
             StrategyAction::UpdateAdaptorRunningState { adaptor } => {
                 // Placeholder for updating adaptor running state
+                // TODO -
                 Ok(())
             }
             StrategyAction::UpdateStrategyRunningState => {
+                // TODO - 
                 // Placeholder for updating strategy running state
                 Ok(())
             }
@@ -79,10 +85,14 @@ impl Strategy {
 
     pub fn distribute_funds_with_custom_ratios(storage: &mut dyn Storage, custom_ratios: String) -> StdResult<()> {
         // Parse custom_ratios and distribute funds accordingly
+        // TODO - 
+        // Use the position manager module to check available fund. 
+        // Use the adaptor list and ratio to do the calculation. 
         Ok(())
     }
 
     pub fn distribute_funds(total_funds: u128, ratios: Vec<u128>) -> Vec<u128> {
+        // TODO - Validation.
         let sum_ratios: u128 = ratios.iter().sum();
         ratios.iter().map(|r| total_funds * r / sum_ratios).collect()
     }
