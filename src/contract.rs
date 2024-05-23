@@ -11,7 +11,7 @@ use crate::vault::config::{query_vault_config, VAULT_CONFIG, Config};
 
 use cosmwasm_std::{
     entry_point, Binary, Deps, DepsMut, Env, MessageInfo, Reply, Response, 
-    StdResult, StdError,to_json_binary,
+    StdResult, StdError,to_json_binary,Coin, Uint128, BankMsg,CosmosMsg
 };
 // use osmosis_std::types::cosmwasm::wasm::v1::ExecuteContractProposal;
 // use osmosis_std::types::osmosis::cosmwasmpool::v1beta1::ExitPoolExecuteMsgRequest;
@@ -28,7 +28,8 @@ pub fn execute(
 ) -> Result<Response, ContractError> {
 
     match msg {
-        ExecuteMsg::Deposit { amount, recipient } => todo!(),
+        ExecuteMsg::Deposit { amount, recipient } => { 
+            try_deposit(deps, env, info, amount, recipient);},
         ExecuteMsg::Redeem { recipient, amount } => todo!(),
         ExecuteMsg::VaultExtension(extension_msg) => {
             match extension_msg {
@@ -177,6 +178,40 @@ fn try_update_running_state(
 
     Ok(Response::new()
         .add_attribute("method", "try_update_running_state"))
+}
+
+fn try_deposit(
+    deps: DepsMut,
+    env: Env,
+    info: MessageInfo,
+    amount: Uint128,
+    recipient: Option<String>, // Used for future 
+) -> Result<Response, ContractError> {
+    
+    // Check if the sent funds match the requested deposit amount
+    if info.funds.len() != 1 || info.funds[0].amount != amount {
+        return Err(ContractError::Std(StdError::generic_err("Incorrect deposit amount")));
+    }
+
+    // TODO - Whitelist denom verification. Whitelist should be added in initialise message too. 
+    //        there should be a separate update whitelist exection as well.
+    // Ensure the denom matches
+    if info.funds[0].denom != "uosmo" { // TODO - Replace with the appropriate denom
+        return Err(ContractError::Std(StdError::generic_err("Incorrect denom")));
+    }
+
+    // Construct the bank message to transfer the funds to the contract's address
+    let bank_msg = BankMsg::Send {
+        to_address: env.contract.address.to_string(),
+        amount: vec![info.funds[0].clone()],
+    };
+
+    Ok(Response::new()
+        .add_message(CosmosMsg::Bank(bank_msg))
+        .add_attribute("method", "try_deposit")
+        .add_attribute("amount", amount.to_string())
+        .add_attribute("sender", info.sender.to_string())
+        .add_attribute("recipient", env.contract.address.to_string()))
 }
 
 fn try_update_vault_owner(

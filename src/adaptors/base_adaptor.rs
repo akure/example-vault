@@ -21,6 +21,24 @@ pub struct AdapterMetadata {
     pub dest_market_type: MarketType,
 }
 
+impl AdapterMetadata {
+    pub fn new(
+        name: String,
+        desc: String,
+        dest_chain_id: String,
+        dest_contract_addr: String,
+        dest_market_type: MarketType,
+    ) -> Self {
+        AdapterMetadata {
+            name,
+            desc,
+            dest_chain_id,
+            dest_contract_addr,
+            dest_market_type,
+        }
+    }
+}
+
 /// Adapter trait that defines the common behavior for all adapters
 pub trait Adapter {
     /// Metadata for the adapter
@@ -28,13 +46,17 @@ pub trait Adapter {
 
     // Returns the total net assets available in the adaptor. ( allocated - withdraw ) 
     // It can go negative as well, if total withdraw > allocated. This is running value to be 
-    // updated. TODO - REthink.
-    fn net_assets(self, querier: &QuerierWrapper, env: Env) -> Result<Vec<Coin>, StdError>;
+    // updated. This postion to be managed in the position manager module.
+    // TODO - Rethink.
+    fn query_net_assets(self, querier: &QuerierWrapper, env: Env) -> Result<Vec<Coin>, StdError>;
 
-    // TODO - Rethink. based on current query against the adaptor if unbonding is done today.
-    fn expected_available_assets(self, querier: &QuerierWrapper, env: Env) -> Result<Vec<Coin>, StdError>;
-    // Returns the shares associated to this adaptor at a given point of time.
-    fn allocated_shares(&self, querier: &QuerierWrapper, env: Env) -> Result<Coin, StdError>;
+    // TODO - Rethink. based on current query against the adaptor including pending unbonding.
+    fn query_expected_available_assets(self, querier: &QuerierWrapper, env: Env) -> Result<Vec<Coin>, StdError>;
+    // Returns the shares associated to this adaptor at a given point of time. This is more 
+    // suitable measure as compared to the asset related queires.
+    fn query_allocated_shares(&self, querier: &QuerierWrapper, env: Env) -> Result<Coin, StdError>;
+
+
     /// Describes the effective balance of the vault in the adapter
     /// fn assets_balance(&self, querier: &QuerierWrapper, env: Env) -> Result<Vec<Coin>, StdError>;
 

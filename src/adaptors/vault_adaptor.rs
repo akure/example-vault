@@ -59,8 +59,8 @@ impl VaultAdapter for SingleAssetVaultAdapter {
             amount: assets[0].amount,
             recipient: None,
         };
-
-        let dest_contract_addr = Addr::unchecked(&self.metadata.dest_contract_addr); // Convert String to Addr
+        // Convert String to Addr
+        let dest_contract_addr = Addr::unchecked(&self.metadata.dest_contract_addr); 
 
         Ok(Self::execute_call(dest_contract_addr, to_json_binary(&msg)?, assets)?)
     }
@@ -74,9 +74,8 @@ impl VaultAdapter for SingleAssetVaultAdapter {
             recipient: None,
             amount: shares.amount,};
         
-
-        let dest_contract_addr = Addr::unchecked(&self.metadata.dest_contract_addr); // Convert String to Addr
-
+        // Convert String to Addr
+        let dest_contract_addr = Addr::unchecked(&self.metadata.dest_contract_addr); 
         Ok(Self::execute_call(dest_contract_addr, to_json_binary(&msg)?, vec![shares])?)
     }
 
@@ -91,18 +90,18 @@ impl Adapter for SingleAssetVaultAdapter {
         self.metadata.clone()
     }
 
-    fn net_assets(self, querier: &QuerierWrapper, env: Env) -> Result<Vec<Coin>, StdError> {
+    fn query_net_assets(self, querier: &QuerierWrapper, env: Env) -> Result<Vec<Coin>, StdError> {
         // TODO - Either to check the position management or query the other real adaptor.
         Ok(vec![])
     }
 
-    fn expected_available_assets(self, querier: &QuerierWrapper, env: Env) -> Result<Vec<Coin>, StdError> {
+    fn query_expected_available_assets(self, querier: &QuerierWrapper, env: Env) -> Result<Vec<Coin>, StdError> {
 
        // TODO - Either to check the position management or query the other real adaptor.
         Ok(vec![])
     }
 
-    fn allocated_shares(&self, querier: &QuerierWrapper, env: Env) -> Result<Coin, StdError> {
+    fn query_allocated_shares(&self, querier: &QuerierWrapper, env: Env) -> Result<Coin, StdError> {
         // TODO - Either to check the position management or query the other real adaptor.
         Ok(Coin::default())
     }
