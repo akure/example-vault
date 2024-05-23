@@ -1,4 +1,5 @@
 // ownership.rs
+// Taken from the vaultenator 
 use cosmwasm_schema::cw_serde;
 use cosmwasm_std::{Deps, DepsMut, Env, Event, MessageInfo, Response, StdResult, Addr, StdError, ensure, ensure_eq, attr};
 use cw_controllers::Admin;
