@@ -8,12 +8,15 @@ use crate::strategy::strategy::{Strategy, StrategyKey};
 use serde::{Serialize,Deserialize};
 use schemars::JsonSchema;
 
+// TODO - Complex instantiation support to be added so provault can be fully orchastreted 
+// using an elegant json file.
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 pub struct InstantiateMsg {
     pub thesis: String,      // The general thesis of the vault
     pub name: String,        // The name of the vault
     pub provault_config: Config, // Config parameters for the vault
 }
+
 
 #[cw_serde]
 pub enum QueryMsg {

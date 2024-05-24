@@ -206,6 +206,8 @@ fn try_deposit(
         amount: vec![info.funds[0].clone()],
     };
 
+    // TODO - share calculation and allocation to be done on reply handler on successful deposit. 
+
     Ok(Response::new()
         .add_message(CosmosMsg::Bank(bank_msg))
         .add_attribute("method", "try_deposit")

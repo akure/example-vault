@@ -83,11 +83,12 @@ impl Strategy {
         }
     }
 
+    // To be triggered by strategy owner via strategy action entry point.
     pub fn distribute_funds_with_custom_ratios(storage: &mut dyn Storage, custom_ratios: String) -> StdResult<()> {
         // Parse custom_ratios and distribute funds accordingly
-        // TODO - 
-        // Use the position manager module to check available fund. 
+        // Use the position manager module to check available fund in the provault treasury. 
         // Use the adaptor list and ratio to do the calculation. 
+        // Update the shares allocated to each adaptors on successful execution on each adaptor 
         Ok(())
     }
 

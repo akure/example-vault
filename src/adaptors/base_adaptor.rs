@@ -11,7 +11,10 @@ pub enum MarketType {
     Swap,
  }
 
-/// Metadata struct to provide information about each adapter
+/// Metadata struct to provide information about each adapter.
+/// With the use of this meta data, any external adaptor contract 
+/// is simply a plug and play by the strategy module which is further 
+/// controlled by strategy owner.
 #[derive(Clone, Debug)]
 pub struct AdapterMetadata {
     pub name: String,

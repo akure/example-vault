@@ -1,12 +1,9 @@
-pub mod config;
 pub mod contract;
-pub mod describe;
-pub mod handle;
 pub mod msg;
-pub mod state;
 pub mod error;
 pub mod vault;
 pub mod ownership;
 pub mod strategy;
 pub mod position_manager;
 pub mod adaptors;
+pub mod proshare;
